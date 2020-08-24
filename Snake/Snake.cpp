@@ -2,10 +2,26 @@
 //
 
 #include <iostream>
+#include "Game.h"
+#include "utils.h"
+#include <iostream>
+HANDLE hStdout;
+
+using namespace std;
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    srand(time(NULL));
+    int width = 100;
+    int heigth = 50;
+    SetCMDSizeAndTitle(heigth, width, "d");
+
+
+    Game game = Game(width, heigth);
+    game.run();
+    //getchar();
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
