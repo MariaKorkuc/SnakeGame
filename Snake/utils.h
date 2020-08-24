@@ -8,8 +8,7 @@ void gotoxy(int column, int line);
 
 struct Point
 {
-	Point(int x, int y) : x(x), y(y) {}
-	Point() : x(1), y(1) {}
+	Point(int x = 1, int y = 1, char c = '@') : x(x), y(y), c(c) {}
 	Point(const Point& p) : x(p.x), y(p.y) {}
 	bool operator==(const Point& p)
 	{
@@ -18,6 +17,7 @@ struct Point
 
 	int x;
 	int y;
+	char c;
 };
 
 std::ostream& operator<<(std::ostream& o, const Point& p);

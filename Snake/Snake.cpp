@@ -20,6 +20,7 @@ int main()
 
     Game game = Game(width, heigth);
     game.run();
+    game.printPoints();
     //getchar();
 
 }
