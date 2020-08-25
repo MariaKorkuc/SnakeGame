@@ -84,12 +84,12 @@ void Game::setBoundries()
 void Game::setFruit()
 {
     int x_fruit, y_fruit;
-    Point fr;
+    Segment fr;
 
     do {
         x_fruit = rand() % (width - 2) + 1;
         y_fruit = rand() % (height - 2) + 1;
-        fr = Point(x_fruit, y_fruit);
+        fr = Segment(x_fruit, y_fruit);
     } while (fr == snake.get_head_coord());
 
     fruit = fr;
@@ -102,6 +102,7 @@ bool Game::check_fruit_eaten()
     {
         points += 10;
         setFruit();
+        snake.add_segment_to_belly();
         return true;
     }
 

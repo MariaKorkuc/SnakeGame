@@ -14,7 +14,7 @@ int main()
 {
     srand(time(NULL));
     int width = 100;
-    int heigth = 50;
+    int heigth = 25;
     SetCMDSizeAndTitle(heigth, width, "d");
 
 

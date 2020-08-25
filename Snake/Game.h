@@ -6,7 +6,6 @@
 #include <conio.h>
 #include "utils.h"
 #include <time.h>
-#include <vector>
 
 using namespace std;
 
@@ -27,7 +26,7 @@ private:
 	int width;
 	int height;
 
-	Point fruit;
+	Segment fruit;
 	Nagini snake;
 	int points;
 	int lives;
