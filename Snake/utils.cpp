@@ -27,7 +27,8 @@ void gotoxy(int column, int line)
     );
 }
 
-std::ostream& operator<<(std::ostream& o, const Point& p)
+std::ostream& operator<<(std::ostream& o, const Segment& p)
 {
-    return o << "(" << p.x << "," << p.y << ")";
+    gotoxy(p.x, p.y);
+    return o << p.c;
 }

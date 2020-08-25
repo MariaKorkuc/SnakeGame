@@ -4,10 +4,8 @@
 #include <Windows.h>
 #include "utils.h"
 
-enum Move
-{
-	FORWARD, BACK, UP, DOWN
-};
+using namespace std;
+
 
 class Nagini
 {
@@ -16,11 +14,11 @@ class Nagini
 		~Nagini();
 		void move(Move);
 		void print();
-		Point get_head_coord();
+		Segment get_head_coord();
+		void add_segment_to_belly();
 	private:
-		int x_snake;
-		int y_snake;
+		void moveBelly(int start);
 		Move lastMove;
-		char head;
-		int length;
+		Segment head;
+		vector<Segment> belly;
 };

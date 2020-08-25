@@ -1,11 +1,12 @@
 #include "Game.h"
 
-using namespace std;
 
 Game::Game(int width, int height) : snake(width, height)
 {
     this->width = width;
     this->height = height;
+    points = 0;
+    lives = 3;
     setFruit();
     step();
 }
@@ -40,6 +41,7 @@ void Game::run()
             break;
         }
 
+        check_fruit_eaten();
         step();
     } while (key != 'x');
 }
@@ -47,8 +49,7 @@ void Game::run()
 void Game::step()
 {
     clearScreen();
-    gotoxy(fruit.x, fruit.y);
-    cout << "@";
+    cout << fruit;
     snake.print();
 }
 
@@ -83,13 +84,33 @@ void Game::setBoundries()
 void Game::setFruit()
 {
     int x_fruit, y_fruit;
-    Point fr;
+    Segment fr;
 
     do {
         x_fruit = rand() % (width - 2) + 1;
         y_fruit = rand() % (height - 2) + 1;
-        fr = Point(x_fruit, y_fruit);
+        fr = Segment(x_fruit, y_fruit);
     } while (fr == snake.get_head_coord());
 
     fruit = fr;
+}
+
+
+bool Game::check_fruit_eaten()
+{
+    if (fruit == snake.get_head_coord())
+    {
+        points += 10;
+        setFruit();
+        snake.add_segment_to_belly();
+        return true;
+    }
+
+    return false;
+}
+
+
+const void Game::printPoints()
+{
+    cout << "Points in current game: " << points << endl;
 }
