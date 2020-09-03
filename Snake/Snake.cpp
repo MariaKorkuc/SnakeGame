@@ -13,7 +13,7 @@ using namespace std;
 int main()
 {
     srand(time(NULL));
-    int width = 100;
+    int width = 50;
     int heigth = 25;
     SetCMDSizeAndTitle(heigth, width, "d");
 
