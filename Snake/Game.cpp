@@ -42,6 +42,13 @@ void Game::run()
         }
 
         check_fruit_eaten();
+        check_stepped_on_boundries();
+        check_ate_himself();
+        if (!lives)
+        {
+            cout << "GAME OVER\n";
+            break;
+        }
         step();
     } while (key != 'x');
 }
@@ -55,7 +62,41 @@ void Game::step()
 
 void Game::clearScreen()
 {
-    system("cls");
+    //system("cls");
+    //setBoundries();
+    HANDLE                     hStdOut;
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    DWORD                      count;
+    DWORD                      cellCount;
+    COORD                      homeCoords = { 0, 0 };
+
+    hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hStdOut == INVALID_HANDLE_VALUE) return;
+
+    /* Get the number of cells in the current buffer */
+    if (!GetConsoleScreenBufferInfo(hStdOut, &csbi)) return;
+    cellCount = csbi.dwSize.X * csbi.dwSize.Y;
+
+    /* Fill the entire buffer with spaces */
+    if (!FillConsoleOutputCharacter(
+        hStdOut,
+        (TCHAR)' ',
+        cellCount,
+        homeCoords,
+        &count
+    )) return;
+
+    /* Fill the entire buffer with the current colors and attributes */
+    if (!FillConsoleOutputAttribute(
+        hStdOut,
+        csbi.wAttributes,
+        cellCount,
+        homeCoords,
+        &count
+    )) return;
+
+    /* Move the cursor home */
+    SetConsoleCursorPosition(hStdOut, homeCoords);
     setBoundries();
 }
 
@@ -110,7 +151,51 @@ bool Game::check_fruit_eaten()
 }
 
 
+bool Game::check_stepped_on_boundries()
+{
+    Segment coord = snake.get_head_coord();
+
+    if (coord.x == 1 || coord.x == width-1)
+    {
+        lives--;
+        points -= 20;
+        resetSnake(coord.x == 1 ? FORWARD : BACK);
+        return true;
+    }
+
+    if (coord.y == 1 || coord.y == height-1)
+    {
+        lives--;
+        points -= 20;
+        resetSnake(coord.y == 1 ? DOWN : UP);
+        return true;
+    }
+
+    return false;
+}
+
+bool Game::check_ate_himself()
+{
+    Segment coord = snake.get_head_coord();
+    for (auto seg : snake.get_belly())
+    {
+        if (coord == seg)
+        {
+            points -= 20;
+            lives--;
+            return true;
+        }
+    }
+    return false;
+}
+
+
 const void Game::printPoints()
 {
     cout << "Points in current game: " << points << endl;
+}
+
+void Game::resetSnake(Move where)
+{
+    snake.reset(where);
 }

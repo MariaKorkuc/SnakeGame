@@ -16,6 +16,7 @@ Nagini::~Nagini()
 void Nagini::move(Move m)
 {
 	moveBelly(belly.size()-1);
+	lastMove = m;
 	switch (m)
 	{
 		case FORWARD:
@@ -42,7 +43,6 @@ void Nagini::move(Move m)
 			break;
 	}
 
-	lastMove = m;
 
 }
 
@@ -64,7 +64,7 @@ void Nagini::add_segment_to_belly()
 {
 	if (belly.size())
 	{
-		Segment prev(belly[belly.size() - 1]);
+		Segment prev(belly[belly.size() - 1]); //copy of previous segment of belly
 		int x, y;
 		char seg;
 
@@ -122,13 +122,13 @@ void Nagini::add_segment_to_belly()
 			next = BACK;
 			break;
 		case '^':
-			seg = '|';
+			seg = '!';
 			x = head.x;
 			y = head.y + 1;
 			next = DOWN;
 			break;
 		case 'v':
-			seg = '|';
+			seg = '!';
 			x = head.x;
 			y = head.y - 1;
 			next = UP;
@@ -157,13 +157,13 @@ void Nagini::moveBelly(int start)
 	{
 		//dla pierwszego po g³owie
 		belly[start] = head;
-		if (lastMove == FORWARD || BACK)
+		if (lastMove == FORWARD || lastMove == BACK)
 		{
 			belly[start].c = '-';
 		}
 		else
 		{
-			belly[start].c = '|';
+			belly[start].c = '!';
 		}
 	}
 	else
@@ -172,4 +172,39 @@ void Nagini::moveBelly(int start)
 	}
 
 	moveBelly(start - 1);
+}
+
+void Nagini::reset(Move whereto)
+{
+	int x_modify, y_modify;
+
+	switch (whereto)
+	{
+	case FORWARD:
+		x_modify = 1;
+		y_modify = 0;
+		break;
+	case BACK:
+		x_modify = -1;
+		y_modify = 0;
+		break;
+	case DOWN:
+		x_modify = 0;
+		y_modify = 1;
+		break;
+	case UP:
+		x_modify = 0;
+		y_modify = -1;
+		break;
+	default:
+		x_modify = 1;
+		y_modify = 0;
+		break;
+	}
+
+	for (auto seg : belly)
+	{
+		seg.x += x_modify;
+		seg.y += y_modify;
+	}
 }

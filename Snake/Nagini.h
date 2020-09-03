@@ -16,6 +16,8 @@ class Nagini
 		void print();
 		Segment get_head_coord();
 		void add_segment_to_belly();
+		vector<Segment> get_belly() { return belly; }
+		void reset(Move whereto);
 	private:
 		void moveBelly(int start);
 		Move lastMove;

@@ -16,6 +16,7 @@ public:
 	~Game();
 	void run();
 	const void printPoints();
+	void resetSnake(Move where);
 	
 private:
 	void clearScreen();
@@ -23,6 +24,8 @@ private:
 	void setBoundries();
 	void setFruit();
 	bool check_fruit_eaten();
+	bool check_stepped_on_boundries();
+	bool check_ate_himself();
 	int width;
 	int height;
 
