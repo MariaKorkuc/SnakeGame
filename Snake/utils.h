@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 
+
 enum Move
 {
 	FORWARD, BACK, UP, DOWN
